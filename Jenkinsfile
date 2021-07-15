@@ -12,7 +12,7 @@ pipeline {
             steps {
                 echo 'Testing..'
                 sh 'npm install'
-                sh 'npm test'
+                sh 'npm test --forceExit'
             }
         } 
     } 
