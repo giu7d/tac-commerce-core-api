@@ -3,10 +3,11 @@ pipeline {
     tools { nodejs "node" }
     stages {
         stage('Build') {
+            agent { dockerfile true }
             steps {
                 echo 'Building..'
-                sh 'docker build . -t "ta-api"'
-                sh 'docker run -d -e "PORT=5000" -p 5000:5000 --name ta-api ta-api'
+                sh 'node --version'
+                sh 'npm build'
             }
         }
         stage('Test') {
