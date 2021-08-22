@@ -1,17 +1,13 @@
-# Tópicos Avançados - Back-end
+# Tópicos Avançados - Commerce - Core API
 
 ## How to run
 
 ```bash
-# build image
-$ docker build . -t "ta-api"
-
-# start
-$ docker run -d -e "PORT=5000" -p 5000:5000 --name ta-api ta-api
+$ docker-compose up
 ```
 
-## Testing
+## Migrations
 
 ```
-yarn test
+$ yarn typeorm migrations:run
 ```
