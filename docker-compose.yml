@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  core-api:
+    image: nodejs
+    restart: unless-stopped
+    env_file: .env
+    command: yarn dev
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '5000:5000'
+      - '9991:9991'
+    depends_on:
+      - db
+    environment:
+      ENV: 'development'
+      PORT: 5000
+      TYPEORM_HOST: 'db'
+    volumes:
+      - ./:/usr/app
+
+  db:
+    image: postgres:12.4-alpine
+    restart: on-failure
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: commerce_dev
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - 'dbdata:/var/lib/postgresql/data/pgdata'
+
+volumes:
+  dbdata:

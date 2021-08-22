@@ -12,7 +12,9 @@
 		"paths": {
 			"@modules/*": ["modules/*"],
 			"@config/*": ["config/*"],
-			"@shared/*": ["shared/*"]
+			"@utils/*": ["utils/*"],
+			"@middlewares/*": ["middlewares/*"],
+			"@/*": ["*"]
 		},
 		"esModuleInterop": true,
 		"experimentalDecorators": true,

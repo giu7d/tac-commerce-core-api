@@ -1,7 +1,7 @@
 import '@config/index'
-import '@shared/infra/http/server'
-import app from '@shared/infra/http/server'
-import { useColor } from '@shared/utils/console'
+import { useColor } from '@utils/console'
+
+import app from '@/server'
 
 const { ENV = 'development', PORT = 3333 } = process.env
 
