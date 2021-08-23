@@ -1,5 +1,4 @@
 import { getRepository, Repository } from 'typeorm'
-import { DBError } from '@utils/errors/dbError'
 import { Account } from '@modules/accounts/entities/Account'
 import { IAccountRepository } from './IAccountRepository'
 

@@ -1,14 +1,13 @@
-import { IShowAccountDTO } from '@modules/accounts/dtos/IShowAccount'
 import { IAccountRepository } from '@modules/accounts/repositories/IAccountRepository'
-import { DBError } from '@utils/errors/dbError'
+import { AccountNotFound } from '@utils/errors/AccountNotFound'
 
 export class ShowAccount {
 	constructor(private accountRepository: IAccountRepository) {}
 
-	public async execute(data: IShowAccountDTO) {
+	public async execute(data: { id: string }) {
 		const account = await this.accountRepository.findById(data.id)
 
-		if (!account) throw new DBError('The account does not exist!', 'Account')
+		if (!account) throw new AccountNotFound()
 
 		return account
 	}

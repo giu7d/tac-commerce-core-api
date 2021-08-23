@@ -2,7 +2,11 @@ import { Joi, celebrate, Segments } from 'celebrate'
 
 import { IModifyAccountDTO } from '@modules/accounts/dtos/IModifyAccount'
 
-export const validateModifyAccount = celebrate<Omit<IModifyAccountDTO, 'id'>>({
+export const withValidModifyAccount = celebrate<
+	any,
+	any,
+	Omit<IModifyAccountDTO, 'id'>
+>({
 	[Segments.BODY]: Joi.object<Omit<IModifyAccountDTO, 'id'>>({
 		firstName: Joi.string(),
 		lastName: Joi.string(),

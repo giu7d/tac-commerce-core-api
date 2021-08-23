@@ -3,7 +3,7 @@ import { Request, Response, NextFunction } from 'express'
 
 const { JWT_SECRET = '' } = process.env
 
-export const verifyTokenAuthenticity = (
+export const withValidToken = (
 	request: Request,
 	_response: Response,
 	next: NextFunction

@@ -1,42 +1,46 @@
 import { Router } from 'express'
+
 import { AccountsController } from '@modules/accounts/controller'
-import { verifyTokenAuthenticity } from '@modules/accounts/middlewares/token/verifyTokenAuthenticity'
-import { validateAccountIdParameter } from '@modules/accounts/middlewares/validation/validateAccountIdParameter'
-import { validateAuthenticateAccount } from '@modules/accounts/middlewares/validation/validateAuthAccount'
-import { validateAuthorizationHeader } from '@modules/accounts/middlewares/validation/validateAuthorizationHeader'
-import { validateCreateAccount } from '@modules/accounts/middlewares/validation/validateCreateAccount'
-import { validateModifyAccount } from '@modules/accounts/middlewares/validation/validateModifyAccount'
+import { withValidToken } from '@modules/accounts/middlewares/token/withValidToken'
+import { withOwnerPermission } from '@modules/accounts/middlewares/permissions/withOwnerPermission'
+import { withAccountIdParameter } from '@modules/accounts/middlewares/validation/withAccountIdParameter'
+import { withValidCreateAccount } from '@modules/accounts/middlewares/validation/withValidCreateAccount'
+import { withValidModifyAccount } from '@modules/accounts/middlewares/validation/withValidModifyAccount'
+import { withAuthenticateAccount } from '@modules/accounts/middlewares/validation/withAuthenticateAccount'
+import { withAuthorizationHeader } from '@modules/accounts/middlewares/validation/withAuthorizationHeader'
 
 const controller = new AccountsController()
 
 const router = Router()
 
-router.post('/', validateCreateAccount, controller.create)
+router.post('/', withValidCreateAccount, controller.create)
 
-router.post('/auth', validateAuthenticateAccount, controller.authenticate)
+router.post('/auth', withAuthenticateAccount, controller.authenticate)
 
 router.put(
 	'/:accountId',
-	validateAccountIdParameter,
-	validateAuthorizationHeader,
-	validateModifyAccount,
-	verifyTokenAuthenticity,
+	withAccountIdParameter,
+	withAuthorizationHeader,
+	withValidModifyAccount,
+	withValidToken,
+	withOwnerPermission,
 	controller.update
 )
 
 router.delete(
 	'/:accountId',
-	validateAccountIdParameter,
-	validateAuthorizationHeader,
-	verifyTokenAuthenticity,
+	withAccountIdParameter,
+	withAuthorizationHeader,
+	withValidToken,
+	withOwnerPermission,
 	controller.delete
 )
 
 router.get(
 	'/:accountId',
-	validateAccountIdParameter,
-	validateAuthorizationHeader,
-	verifyTokenAuthenticity,
+	withAccountIdParameter,
+	withAuthorizationHeader,
+	withValidToken,
 	controller.read
 )
 

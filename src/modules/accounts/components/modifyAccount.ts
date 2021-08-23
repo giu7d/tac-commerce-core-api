@@ -1,9 +1,9 @@
 import { IModifyAccountDTO } from '@modules/accounts/dtos/IModifyAccount'
 import { IAccountRepository } from '@modules/accounts/repositories/IAccountRepository'
-import { DBError } from '@utils/errors/dbError'
-import { HttpError } from '@utils/errors/httpError'
-import { getHashPassword } from '@utils/hash'
-import { v4 } from 'uuid'
+import { AccountConflictEmail } from '@utils/errors/AccountConflictEmail'
+import { AccountNotFound } from '@utils/errors/AccountNotFound'
+import { AccountWrongPassword } from '@utils/errors/AccountWrongPassword'
+import { generateHashSaltPassword, getHashSaltPassword } from '@utils/hash'
 import { Account } from '../entities/Account'
 
 export class ModifyAccount {
@@ -17,41 +17,49 @@ export class ModifyAccount {
 	}: IModifyAccountDTO) {
 		if (data.email) await this._verifyEmailExistence(data.email)
 
-		if (!currentPassword || !password)
-			return await this.accountRepository.modify(id, data)
+		if (currentPassword && password) {
+			const partialPasswordData = await this._updatePasswordAndData(
+				id,
+				password,
+				currentPassword
+			)
+			return await this.accountRepository.modify(id, {
+				...data,
+				...partialPasswordData
+			})
+		}
 
-		await this._verifyCurrentPassword(id, currentPassword)
+		return await this.accountRepository.modify(id, data)
+	}
 
-		const [salt, newPassword] = this._hashSaltNewPassword(password)
+	private async _updatePasswordAndData(
+		id: string,
+		newPassword: string,
+		currentPassword: string
+	): Promise<Partial<Account>> {
+		await this._verifyPassword(id, currentPassword)
 
-		await this.accountRepository.modify(id, {
-			...data,
+		const [salt, password] = generateHashSaltPassword(newPassword)
+
+		return {
 			salt,
-			password: newPassword
-		})
+			password
+		}
 	}
 
 	private async _verifyEmailExistence(email: string) {
 		const account = await this.accountRepository.findByEmail(email)
 
-		if (account) throw new DBError('This email is already in use!', 'Account')
+		if (account) throw new AccountConflictEmail()
 	}
 
-	private _hashSaltNewPassword(password: string) {
-		const salt = v4()
-		const newPassword = getHashPassword(password, salt)
-
-		return [salt, newPassword]
-	}
-
-	private async _verifyCurrentPassword(id: string, currentPassword: string) {
+	private async _verifyPassword(id: string, password: string) {
 		const account = await this.accountRepository.findById(id)
 
-		if (!account) throw new DBError('The account does not exist!', 'Account')
+		if (!account) throw new AccountNotFound()
 
-		const hashedPassword = getHashPassword(currentPassword, account.salt)
+		const hashSaltPassword = getHashSaltPassword(password, account.salt)
 
-		if (account.password !== hashedPassword)
-			throw new HttpError('Wrong password!', 409)
+		if (account.password !== hashSaltPassword) throw new AccountWrongPassword()
 	}
 }

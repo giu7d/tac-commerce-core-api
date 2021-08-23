@@ -10,10 +10,13 @@ import { ICreateAccountDTO } from '@modules/accounts/dtos/ICreateAccount'
 import { IModifyAccountDTO } from '@modules/accounts/dtos/IModifyAccount'
 import { AccountRepository } from '@modules/accounts/repositories/accountRepository'
 import { ShowAccountView } from '@modules/accounts/views/showAccountView'
-import { CreateAccountView } from './views/createAccountView'
+import { CreateAccountView } from '@modules/accounts/views/createAccountView'
 
 export class AccountsController {
-	public async create(request: Request<ICreateAccountDTO>, response: Response) {
+	public async create(
+		request: Request<any, any, ICreateAccountDTO>,
+		response: Response
+	) {
 		const accountRepository = new AccountRepository()
 		const createAccountView = new CreateAccountView()
 		const createAccount = new CreateAccount(accountRepository)
@@ -38,9 +41,9 @@ export class AccountsController {
 	}
 
 	public async update(
-		request: Request<any, Omit<IModifyAccountDTO, 'id'>>,
+		request: Request<any, any, Omit<IModifyAccountDTO, 'id'>>,
 		response: Response
-	): Promise<Response> {
+	) {
 		const { accountId = '' } = request.params
 
 		const accountRepository = new AccountRepository()
@@ -51,11 +54,8 @@ export class AccountsController {
 		return response.status(200).send()
 	}
 
-	public async delete(
-		request: Request<{ accountId: string }>,
-		response: Response
-	): Promise<Response> {
-		const { accountId } = request.params
+	public async delete(request: Request, response: Response) {
+		const { accountId = '' } = request.params
 
 		const accountRepository = new AccountRepository()
 		const deleteAccount = new DeleteAccount(accountRepository)
@@ -66,7 +66,7 @@ export class AccountsController {
 	}
 
 	public async authenticate(
-		request: Request<IAuthAccountDTO>,
+		request: Request<any, any, IAuthAccountDTO>,
 		response: Response
 	) {
 		const accountRepository = new AccountRepository()
