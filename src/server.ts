@@ -4,8 +4,8 @@ import express from 'express'
 import { errors as withCelebrateError } from 'celebrate'
 
 import { routes } from '@/routes'
-import { withResponseLogger } from '@middlewares/withResponseLogger'
-import { withApplicationError } from '@middlewares/withApplicationError'
+import { withResponseLogger } from '@modules/shared/middlewares/withResponseLogger'
+import { withApplicationError } from '@modules/shared/middlewares/withApplicationError'
 
 const app = express()
 

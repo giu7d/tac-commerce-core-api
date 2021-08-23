@@ -1,13 +1,13 @@
 import { Router } from 'express'
 
 import { AccountsController } from '@modules/accounts/controller'
-import { withValidToken } from '@modules/accounts/middlewares/token/withValidToken'
 import { withOwnerPermission } from '@modules/accounts/middlewares/permissions/withOwnerPermission'
 import { withAccountIdParameter } from '@modules/accounts/middlewares/validation/withAccountIdParameter'
 import { withValidCreateAccount } from '@modules/accounts/middlewares/validation/withValidCreateAccount'
 import { withValidModifyAccount } from '@modules/accounts/middlewares/validation/withValidModifyAccount'
 import { withAuthenticateAccount } from '@modules/accounts/middlewares/validation/withAuthenticateAccount'
-import { withAuthorizationHeader } from '@modules/accounts/middlewares/validation/withAuthorizationHeader'
+import { withAuthorizationHeader } from '@modules/shared/middlewares/token/withAuthorizationHeader'
+import { withValidToken } from '@modules/shared/middlewares/token/withValidToken'
 
 const controller = new AccountsController()
 

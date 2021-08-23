@@ -13,7 +13,6 @@
 			"@modules/*": ["modules/*"],
 			"@config/*": ["config/*"],
 			"@utils/*": ["utils/*"],
-			"@middlewares/*": ["middlewares/*"],
 			"@/*": ["*"]
 		},
 		"esModuleInterop": true,

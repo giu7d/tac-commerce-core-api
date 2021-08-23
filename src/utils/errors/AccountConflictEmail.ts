@@ -1,4 +1,4 @@
-import { HttpError } from './httpError'
+import { HttpError } from './HttpError'
 
 export class AccountConflictEmail extends HttpError {
 	constructor() {

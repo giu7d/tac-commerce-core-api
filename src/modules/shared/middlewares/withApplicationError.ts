@@ -2,7 +2,7 @@ import { JsonWebTokenError, TokenExpiredError } from 'jsonwebtoken'
 import { Request, Response, NextFunction } from 'express'
 import { QueryFailedError } from 'typeorm'
 
-import { HttpError } from '@utils/errors/httpError'
+import { HttpError } from '@utils/errors/HttpError'
 
 export const withApplicationError = (
 	error: Error,
@@ -33,7 +33,7 @@ export const withApplicationError = (
 
 		if (error.driverError.code === '23505') {
 			return response.status(400).json({
-				status: 403,
+				status: 400,
 				message: error.driverError.detail
 			})
 		}
