@@ -29,11 +29,9 @@ export const withApplicationError = (
 		})
 
 	if (error instanceof QueryFailedError) {
-		console.log({ error }, error.driverError.code)
-
 		if (error.driverError.code === '23505') {
-			return response.status(400).json({
-				status: 400,
+			return response.status(409).json({
+				status: 409,
 				message: error.driverError.detail
 			})
 		}
