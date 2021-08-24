@@ -1,4 +1,4 @@
-export interface IUpdateProductDTO {
+export interface IModifyProductDTO {
 	id: string
 	name?: string
 	category?: string

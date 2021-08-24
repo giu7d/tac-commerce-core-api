@@ -2,12 +2,14 @@ import { Router } from 'express'
 
 import { withValidToken } from '@modules/shared/middlewares/token/withValidToken'
 import { withAuthorizationHeader } from '@modules/shared/middlewares/token/withAuthorizationHeader'
-import { ProductsController } from '@modules/products/controller'
 import { withValidCreateProduct } from '@modules/products/middleware/validation/withValidCreateProduct'
 import { withProductIdParameter } from '@modules/products/middleware/validation/withProductIdParameter'
 import { withValidModifyProduct } from '@modules/products/middleware/validation/withValidModifyProduct'
-
-const controller = new ProductsController()
+import { CreateProductController } from '@modules/products/useCases/CreateProduct/CreateProductController'
+import { ListProductController } from './useCases/ListProduct/ListProductController'
+import { ShowProductController } from './useCases/ShowProduct/ShowProductController'
+import { ModifyProductController } from './useCases/ModifyProduct/ModifyProductController'
+import { DeleteProductController } from './useCases/DeleteProduct/DeleteProductController'
 
 const router = Router()
 
@@ -16,12 +18,12 @@ router.post(
 	withAuthorizationHeader,
 	withValidToken,
 	withValidCreateProduct,
-	controller.create
+	CreateProductController.handle
 )
 
-router.get('/', controller.index)
+router.get('/', ListProductController.handle)
 
-router.get('/:productId', withProductIdParameter, controller.read)
+router.get('/:productId', withProductIdParameter, ShowProductController.handle)
 
 router.put(
 	'/:productId',
@@ -29,7 +31,7 @@ router.put(
 	withAuthorizationHeader,
 	withValidToken,
 	withValidModifyProduct,
-	controller.update
+	ModifyProductController.handle
 )
 
 router.delete(
@@ -37,7 +39,7 @@ router.delete(
 	withProductIdParameter,
 	withAuthorizationHeader,
 	withValidToken,
-	controller.delete
+	DeleteProductController.handle
 )
 
 export default router

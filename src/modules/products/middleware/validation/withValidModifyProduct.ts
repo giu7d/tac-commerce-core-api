@@ -1,9 +1,9 @@
 import { Joi, celebrate, Segments } from 'celebrate'
 
-import { IUpdateProductDTO } from '@modules/products/dtos/IUpdateProduct'
+import { IModifyProductDTO } from '@modules/products/useCases/ModifyProduct/IModifyProductDTO'
 
-export const withValidModifyProduct = celebrate<Omit<IUpdateProductDTO, 'id'>>({
-	[Segments.BODY]: Joi.object<Omit<IUpdateProductDTO, 'id'>>({
+export const withValidModifyProduct = celebrate<Omit<IModifyProductDTO, 'id'>>({
+	[Segments.BODY]: Joi.object<Omit<IModifyProductDTO, 'id'>>({
 		name: Joi.string(),
 		category: Joi.string(),
 		quantity: Joi.number().min(0),

@@ -2,7 +2,7 @@ import { getRepository, Repository } from 'typeorm'
 import { Account } from '@modules/accounts/entities/Account'
 import { IAccountRepository } from './IAccountRepository'
 
-export class AccountRepository implements IAccountRepository {
+export class AccountRepositoryTypeORM implements IAccountRepository {
 	repository: Repository<Account>
 
 	constructor() {

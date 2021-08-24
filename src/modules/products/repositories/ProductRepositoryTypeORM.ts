@@ -2,7 +2,7 @@ import { getRepository, Repository } from 'typeorm'
 import { Product } from '@modules/products/entities/Product'
 import { IProductRepository } from './IProductRepository'
 
-export class ProductRepository implements IProductRepository {
+export class ProductRepositoryTypeORM implements IProductRepository {
 	repository: Repository<Product>
 
 	constructor() {

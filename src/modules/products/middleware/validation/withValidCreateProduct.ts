@@ -1,6 +1,6 @@
 import { Joi, celebrate, Segments } from 'celebrate'
 
-import { ICreateProductDTO } from '@modules/products/dtos/ICreateProduct'
+import { ICreateProductDTO } from '@modules/products/useCases/CreateProduct/ICreateProductDTO'
 
 export const withValidCreateProduct = celebrate<any, any, ICreateProductDTO>({
 	[Segments.BODY]: Joi.object<ICreateProductDTO>({
