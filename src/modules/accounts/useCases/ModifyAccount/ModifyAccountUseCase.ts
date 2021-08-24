@@ -1,13 +1,20 @@
-import { IModifyAccountDTO } from '@modules/accounts/dtos/IModifyAccount'
+import { inject, injectable } from 'tsyringe'
+
+import { Account } from '@modules/accounts/entities/Account'
 import { IAccountRepository } from '@modules/accounts/repositories/IAccountRepository'
 import { AccountConflictEmail } from '@utils/errors/AccountConflictEmail'
 import { AccountNotFound } from '@utils/errors/AccountNotFound'
 import { AccountWrongPassword } from '@utils/errors/AccountWrongPassword'
 import { generateHashSaltPassword, getHashSaltPassword } from '@utils/hash'
-import { Account } from '../entities/Account'
 
-export class ModifyAccount {
-	constructor(private accountRepository: IAccountRepository) {}
+import { IModifyAccountDTO } from './IModifyAccountDTO'
+
+@injectable()
+export class ModifyAccountUseCase {
+	constructor(
+		@inject('AccountRepository')
+		private accountRepository: IAccountRepository
+	) {}
 
 	public async execute({
 		id,

@@ -1,6 +1,6 @@
 import { Joi, celebrate, Segments } from 'celebrate'
 
-import { IModifyAccountDTO } from '@modules/accounts/dtos/IModifyAccount'
+import { IModifyAccountDTO } from '@modules/accounts/useCases/ModifyAccount/IModifyAccountDTO'
 
 export const withValidModifyAccount = celebrate<
 	any,

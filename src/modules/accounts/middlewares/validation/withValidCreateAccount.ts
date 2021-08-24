@@ -1,6 +1,6 @@
 import { Joi, celebrate, Segments } from 'celebrate'
 
-import { ICreateAccountDTO } from '@modules/accounts/dtos/ICreateAccount'
+import { ICreateAccountDTO } from '@modules/accounts/useCases/CreateAccount/ICreateAccountDTO'
 
 export const withValidCreateAccount = celebrate<any, any, ICreateAccountDTO>({
 	[Segments.BODY]: Joi.object<ICreateAccountDTO>({

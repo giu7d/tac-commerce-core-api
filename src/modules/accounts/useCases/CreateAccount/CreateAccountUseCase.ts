@@ -1,11 +1,17 @@
+import { inject, injectable } from 'tsyringe'
+
 import { generateHashSaltPassword } from '@utils/hash'
 import { Account } from '@modules/accounts/entities/Account'
-import { ICreateAccountDTO } from '@modules/accounts/dtos/ICreateAccount'
+import { ICreateAccountDTO } from '@modules/accounts/useCases/CreateAccount/ICreateAccountDTO'
 import { IAccountRepository } from '@modules/accounts/repositories/IAccountRepository'
 import { AccountWrongConfirmPassword } from '@utils/errors/AccountWrongConfirmPassword'
 
-export class CreateAccount {
-	constructor(private accountRepository: IAccountRepository) {}
+@injectable()
+export class CreateAccountUseCase {
+	constructor(
+		@inject('AccountRepository')
+		private accountRepository: IAccountRepository
+	) {}
 
 	public async execute({ confirmPassword, ...data }: ICreateAccountDTO) {
 		if (confirmPassword !== data.password)

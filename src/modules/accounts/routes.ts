@@ -1,21 +1,28 @@
 import { Router } from 'express'
 
-import { AccountsController } from '@modules/accounts/controller'
 import { withOwnerPermission } from '@modules/accounts/middlewares/permissions/withOwnerPermission'
 import { withAccountIdParameter } from '@modules/accounts/middlewares/validation/withAccountIdParameter'
-import { withValidCreateAccount } from '@modules/accounts/middlewares/validation/withValidCreateAccount'
 import { withValidModifyAccount } from '@modules/accounts/middlewares/validation/withValidModifyAccount'
-import { withAuthenticateAccount } from '@modules/accounts/middlewares/validation/withAuthenticateAccount'
 import { withAuthorizationHeader } from '@modules/shared/middlewares/token/withAuthorizationHeader'
 import { withValidToken } from '@modules/shared/middlewares/token/withValidToken'
+import { withValidCreateAccount } from '@modules/accounts/middlewares/validation/withValidCreateAccount'
+import { withValidAuthenticateAccount } from './middlewares/validation/withValidAuthenticateAccount'
 
-const controller = new AccountsController()
+import { AuthenticateAccountController } from '@modules/accounts/useCases/AuthenticateAccount/AuthenticateAccountController'
+import { CreateAccountController } from './useCases/CreateAccount/CreateAccountController'
+import { ModifyAccountController } from './useCases/ModifyAccount/ModifyAccountController'
+import { DeleteAccountController } from './useCases/DeleteAccount/DeleteAccountController'
+import { ShowAccountController } from './useCases/ShowAccount/ShowAccountController'
 
 const router = Router()
 
-router.post('/', withValidCreateAccount, controller.create)
+router.post('/', withValidCreateAccount, CreateAccountController.handle)
 
-router.post('/auth', withAuthenticateAccount, controller.authenticate)
+router.post(
+	'/auth',
+	withValidAuthenticateAccount,
+	AuthenticateAccountController.handle
+)
 
 router.put(
 	'/:accountId',
@@ -24,7 +31,7 @@ router.put(
 	withValidModifyAccount,
 	withValidToken,
 	withOwnerPermission,
-	controller.update
+	ModifyAccountController.handle
 )
 
 router.delete(
@@ -33,7 +40,7 @@ router.delete(
 	withAuthorizationHeader,
 	withValidToken,
 	withOwnerPermission,
-	controller.delete
+	DeleteAccountController.handle
 )
 
 router.get(
@@ -41,7 +48,7 @@ router.get(
 	withAccountIdParameter,
 	withAuthorizationHeader,
 	withValidToken,
-	controller.read
+	ShowAccountController.handle
 )
 
 export default router

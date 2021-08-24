@@ -3,6 +3,7 @@ import cors from 'cors'
 import express from 'express'
 import { errors as withCelebrateError } from 'celebrate'
 
+import '@modules/accounts'
 import { routes } from '@/routes'
 import { withResponseLogger } from '@modules/shared/middlewares/withResponseLogger'
 import { withApplicationError } from '@modules/shared/middlewares/withApplicationError'

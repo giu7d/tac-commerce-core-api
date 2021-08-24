@@ -1,18 +1,23 @@
 import jwt from 'jsonwebtoken'
+import { inject, injectable } from 'tsyringe'
 
 import { getHashSaltPassword } from '@utils/hash'
-
-import { IAuthAccountDTO } from '@modules/accounts/dtos/IAuthAccount'
 import { IAccountRepository } from '@modules/accounts/repositories/IAccountRepository'
 import { AccountNotFound } from '@utils/errors/AccountNotFound'
 import { AccountWrongPassword } from '@utils/errors/AccountWrongPassword'
 
+import { IAuthenticateAccountDTO } from './IAuthenticateAccountDTO'
+
 const { JWT_SECRET = '' } = process.env
 
-export class AuthenticateAccount {
-	constructor(private accountRepository: IAccountRepository) {}
+@injectable()
+export class AuthenticateAccountUseCase {
+	constructor(
+		@inject('AccountRepository')
+		private accountRepository: IAccountRepository
+	) {}
 
-	public async execute(data: IAuthAccountDTO) {
+	public async execute(data: IAuthenticateAccountDTO) {
 		const account = await this.accountRepository.findByEmail(data.email)
 
 		if (!account) throw new AccountNotFound()
