@@ -21,6 +21,7 @@ export class CreateAccountUseCase {
 
 		const account = new Account({
 			...data,
+			orders: [],
 			salt,
 			password
 		})

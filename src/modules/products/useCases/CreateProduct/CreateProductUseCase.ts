@@ -13,7 +13,7 @@ export class CreateProductUseCase {
 	) {}
 
 	async execute(data: ICreateProductDTO) {
-		const product = new Product(data)
+		const product = new Product({ ...data, orderItems: [] })
 
 		await this.productRepository.save(product)
 

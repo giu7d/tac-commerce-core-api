@@ -7,8 +7,10 @@ import {
 	UpdateDateColumn,
 	DeleteDateColumn,
 	BeforeUpdate,
-	BeforeInsert
+	BeforeInsert,
+	OneToMany
 } from 'typeorm'
+import { Order } from '@modules/orders/entities/Order'
 
 type AccountProps = Omit<
 	Account,
@@ -37,6 +39,9 @@ export class Account {
 
 	@Column()
 	salt: string
+
+	@OneToMany(() => Order, order => order.account)
+	orders: Order[]
 
 	@CreateDateColumn()
 	createdAt: Date

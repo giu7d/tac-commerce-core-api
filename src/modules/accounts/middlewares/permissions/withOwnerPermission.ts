@@ -1,11 +1,6 @@
-import jwt from 'jsonwebtoken'
 import { Request, Response, NextFunction } from 'express'
 import { AccountForbiddenPermission } from '@utils/errors/AccountForbiddenPermission'
-
-type AccountTokenPayload = {
-	id: string
-	email: string
-}
+import { getDataFromBearerToken } from '@utils/token'
 
 export const withOwnerPermission = (
 	request: Request,
@@ -15,9 +10,7 @@ export const withOwnerPermission = (
 	const { authorization = '' } = request.headers
 	const { accountId = '' } = request.params
 
-	const [_bearer, token] = authorization.split(' ')
-
-	const { id } = jwt.decode(token) as AccountTokenPayload
+	const { id } = getDataFromBearerToken(authorization)
 
 	if (id !== accountId) throw new AccountForbiddenPermission()
 

@@ -6,44 +6,42 @@ import {
 	CreateDateColumn,
 	UpdateDateColumn,
 	DeleteDateColumn,
-	OneToMany
+	ManyToOne
 } from 'typeorm'
-import { OrderItem } from '@modules/orders/entities/OrderItem'
+import { Product } from '@modules/products/entities/Product'
+import { Order } from './Order'
 
-type ProductProps = Omit<
-	Product,
+type OrderItemProps = Omit<
+	OrderItem,
 	'id' | 'createdAt' | 'updatedAt' | 'deletedAt'
 >
 
 @Entity()
-export class Product {
+export class OrderItem {
 	@PrimaryColumn({
 		type: 'uuid',
 		unique: true
 	})
 	id: string
 
-	@Column()
-	name: string
-
-	@Column()
-	category: string
-
 	@Column({
 		type: 'float'
 	})
 	unitPrice: number
 
+	@Column({
+		type: 'float'
+	})
+	totalPrice: number
+
 	@Column()
 	quantity: number
 
-	@Column({
-		type: 'json'
-	})
-	additionalInformation: any
+	@ManyToOne(() => Product, product => product.orderItems)
+	product: Product
 
-	@OneToMany(() => OrderItem, item => item.product)
-	orderItems: OrderItem[]
+	@ManyToOne(() => Order, order => order.items)
+	order: Order
 
 	@CreateDateColumn()
 	createdAt: Date
@@ -54,7 +52,7 @@ export class Product {
 	@DeleteDateColumn()
 	deletedAt: Date
 
-	constructor(props: ProductProps, id?: string) {
+	constructor(props: OrderItemProps, id?: string) {
 		Object.assign(this, props)
 
 		if (!id) this.id = v4()

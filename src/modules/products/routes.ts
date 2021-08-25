@@ -2,14 +2,14 @@ import { Router } from 'express'
 
 import { withValidToken } from '@modules/shared/middlewares/token/withValidToken'
 import { withAuthorizationHeader } from '@modules/shared/middlewares/token/withAuthorizationHeader'
-import { withValidCreateProduct } from '@modules/products/middleware/validation/withValidCreateProduct'
-import { withProductIdParameter } from '@modules/products/middleware/validation/withProductIdParameter'
-import { withValidModifyProduct } from '@modules/products/middleware/validation/withValidModifyProduct'
+import { withValidCreateProduct } from '@modules/products/middlewares/validation/withValidCreateProduct'
+import { withProductIdParameter } from '@modules/products/middlewares/validation/withProductIdParameter'
+import { withValidModifyProduct } from '@modules/products/middlewares/validation/withValidModifyProduct'
 import { CreateProductController } from '@modules/products/useCases/CreateProduct/CreateProductController'
-import { ListProductController } from './useCases/ListProduct/ListProductController'
-import { ShowProductController } from './useCases/ShowProduct/ShowProductController'
-import { ModifyProductController } from './useCases/ModifyProduct/ModifyProductController'
-import { DeleteProductController } from './useCases/DeleteProduct/DeleteProductController'
+import { ListProductController } from '@modules/products/useCases/ListProduct/ListProductController'
+import { ShowProductController } from '@modules/products/useCases/ShowProduct/ShowProductController'
+import { ModifyProductController } from '@modules/products/useCases/ModifyProduct/ModifyProductController'
+import { DeleteProductController } from '@modules/products/useCases/DeleteProduct/DeleteProductController'
 
 const router = Router()
 
