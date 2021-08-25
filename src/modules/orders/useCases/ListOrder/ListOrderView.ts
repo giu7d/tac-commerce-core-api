@@ -1,6 +1,6 @@
 import { Order } from '@modules/orders/entities/Order'
 
-export class LinkOrderView {
+export class ListOrderView {
 	static json(data: Order[]) {
 		return data.map(item => ({
 			id: item.id,

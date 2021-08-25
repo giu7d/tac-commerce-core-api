@@ -1,18 +1,17 @@
 import { Router } from 'express'
 
-import { withOwnerPermission } from '@modules/accounts/middlewares/permissions/withOwnerPermission'
+import { withValidToken } from '@modules/shared/middlewares/token/withValidToken'
+import { withAuthorizationHeader } from '@modules/shared/middlewares/token/withAuthorizationHeader'
+import { ShowAccountController } from '@modules/accounts/useCases/ShowAccount/ShowAccountController'
 import { withAccountIdParameter } from '@modules/accounts/middlewares/validation/withAccountIdParameter'
 import { withValidModifyAccount } from '@modules/accounts/middlewares/validation/withValidModifyAccount'
-import { withAuthorizationHeader } from '@modules/shared/middlewares/token/withAuthorizationHeader'
-import { withValidToken } from '@modules/shared/middlewares/token/withValidToken'
 import { withValidCreateAccount } from '@modules/accounts/middlewares/validation/withValidCreateAccount'
-import { withValidAuthenticateAccount } from './middlewares/validation/withValidAuthenticateAccount'
-
+import { CreateAccountController } from '@modules/accounts/useCases/CreateAccount/CreateAccountController'
+import { ModifyAccountController } from '@modules/accounts/useCases/ModifyAccount/ModifyAccountController'
+import { DeleteAccountController } from '@modules/accounts/useCases/DeleteAccount/DeleteAccountController'
+import { withValidAuthenticateAccount } from '@modules/accounts/middlewares/validation/withValidAuthenticateAccount'
 import { AuthenticateAccountController } from '@modules/accounts/useCases/AuthenticateAccount/AuthenticateAccountController'
-import { CreateAccountController } from './useCases/CreateAccount/CreateAccountController'
-import { ModifyAccountController } from './useCases/ModifyAccount/ModifyAccountController'
-import { DeleteAccountController } from './useCases/DeleteAccount/DeleteAccountController'
-import { ShowAccountController } from './useCases/ShowAccount/ShowAccountController'
+import { withOwnerAccountPermission } from '@modules/accounts/middlewares/permission/withOwnerAccountPermission'
 
 const router = Router()
 
@@ -30,7 +29,7 @@ router.put(
 	withAuthorizationHeader,
 	withValidModifyAccount,
 	withValidToken,
-	withOwnerPermission,
+	withOwnerAccountPermission,
 	ModifyAccountController.handle
 )
 
@@ -39,7 +38,7 @@ router.delete(
 	withAccountIdParameter,
 	withAuthorizationHeader,
 	withValidToken,
-	withOwnerPermission,
+	withOwnerAccountPermission,
 	DeleteAccountController.handle
 )
 

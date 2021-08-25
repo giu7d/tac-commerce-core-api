@@ -7,7 +7,7 @@ export type AccountTokenPayload = {
 	email: string
 }
 
-export function getDataFromBearerToken(authorization: string) {
+export function getDataFromBearerToken(authorization = '') {
 	const [_bearer, token] = authorization.split(' ')
 
 	const data = jwt.verify(token, JWT_SECRET) as AccountTokenPayload

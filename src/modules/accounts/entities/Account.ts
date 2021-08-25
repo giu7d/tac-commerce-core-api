@@ -43,6 +43,9 @@ export class Account {
 	@OneToMany(() => Order, order => order.account)
 	orders: Order[]
 
+	@Column()
+	isAdmin: boolean
+
 	@CreateDateColumn()
 	createdAt: Date
 

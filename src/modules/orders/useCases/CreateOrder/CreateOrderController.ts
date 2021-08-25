@@ -4,6 +4,7 @@ import { Request, Response } from 'express'
 import { ICreateOrderDTO } from './ICreateOrderDTO'
 import { CreateOrderUseCase } from './CreateOrderUseCase'
 import { getDataFromBearerToken } from '@utils/token'
+import { CreateOrderView } from './CreateOrderView'
 
 export class CreateOrderController {
 	static async handle(
@@ -11,13 +12,14 @@ export class CreateOrderController {
 		response: Response
 	) {
 		const { id: accountId } = getDataFromBearerToken(
-			request.headers.authorization || ''
+			request.headers.authorization
 		)
 
 		const useCase = container.resolve(CreateOrderUseCase)
 
-		const { id } = await useCase.execute({ ...request.body, accountId })
+		const order = await useCase.execute({ ...request.body, accountId })
+		const message = CreateOrderView.json(order)
 
-		return response.status(201).json({ id })
+		return response.status(201).json(message)
 	}
 }

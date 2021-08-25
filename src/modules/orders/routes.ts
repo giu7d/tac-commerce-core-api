@@ -1,15 +1,17 @@
 import { Router } from 'express'
 
 import { withValidToken } from '@modules/shared/middlewares/token/withValidToken'
+import { withAdminPermission } from '@modules/shared/middlewares/permissions/withAdminPermission'
 import { withAuthorizationHeader } from '@modules/shared/middlewares/token/withAuthorizationHeader'
-import { withValidCreateOrder } from '@modules/orders/middlewares/validation/withValidCreateOrder'
-import { withOrderIdParameter } from '@modules/orders/middlewares/validation/withOrderIdParameter'
-import { withValidModifyOrder } from '@modules/orders/middlewares/validation/withValidModifyOrder'
+
 import { withListOrderQuery } from '@modules/orders/middlewares/validation/withListOrderQuery'
-import { CreateOrderController } from '@modules/orders/useCases/CreateOrder/CreateOrderController'
-import { ModifyOrderController } from '@modules/orders/useCases/ModifyOrder/ModifyOrderController'
 import { ShowOrderController } from '@modules/orders/useCases/ShowOrder/ShowOrderController'
 import { LinkOrderController } from '@modules/orders/useCases/ListOrder/ListOrderController'
+import { withValidModifyOrder } from '@modules/orders/middlewares/validation/withValidModifyOrder'
+import { withValidCreateOrder } from '@modules/orders/middlewares/validation/withValidCreateOrder'
+import { withOrderIdParameter } from '@modules/orders/middlewares/validation/withOrderIdParameter'
+import { CreateOrderController } from '@modules/orders/useCases/CreateOrder/CreateOrderController'
+import { ModifyOrderController } from '@modules/orders/useCases/ModifyOrder/ModifyOrderController'
 
 const router = Router()
 
@@ -35,6 +37,7 @@ router.put(
 	withValidToken,
 	withOrderIdParameter,
 	withValidModifyOrder,
+	withAdminPermission,
 	ModifyOrderController.handle
 )
 

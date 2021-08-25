@@ -1,8 +1,9 @@
 import { Request, Response, NextFunction } from 'express'
+
 import { AccountForbiddenPermission } from '@utils/errors/AccountForbiddenPermission'
 import { getDataFromBearerToken } from '@utils/token'
 
-export const withOwnerPermission = (
+export const withOwnerAccountPermission = (
 	request: Request,
 	_response: Response,
 	next: NextFunction

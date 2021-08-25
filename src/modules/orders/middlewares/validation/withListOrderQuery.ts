@@ -2,8 +2,13 @@ import { Joi, celebrate, Segments } from 'celebrate'
 
 import { IListOrderDTO } from '@modules/orders/useCases/ListOrder/IListOrderDTO'
 
-export const withListOrderQuery = celebrate<any, any, any, IListOrderDTO>({
-	[Segments.QUERY]: Joi.object<IListOrderDTO>({
+export const withListOrderQuery = celebrate<
+	any,
+	any,
+	any,
+	Omit<IListOrderDTO, 'accountId'>
+>({
+	[Segments.QUERY]: Joi.object<Omit<IListOrderDTO, 'accountId'>>({
 		paymentStatus: Joi.string().valid(
 			'waiting-approval',
 			'approved',

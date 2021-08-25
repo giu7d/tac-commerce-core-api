@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 import { useColor } from '@utils/console'
+import { PERMISSION_TYPE_HEADER } from '@utils/permission'
 
 const _nowTimestamp = () => new Date().toLocaleString()
 const _useSuccess = useColor('green')

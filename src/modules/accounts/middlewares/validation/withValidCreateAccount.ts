@@ -8,6 +8,7 @@ export const withValidCreateAccount = celebrate<any, any, ICreateAccountDTO>({
 		lastName: Joi.string().required(),
 		email: Joi.string().email().required(),
 		password: Joi.string().required(),
-		confirmPassword: Joi.string().required()
+		confirmPassword: Joi.string().required(),
+		isAdmin: Joi.boolean().default(false)
 	})
 })

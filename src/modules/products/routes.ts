@@ -1,6 +1,7 @@
 import { Router } from 'express'
 
 import { withValidToken } from '@modules/shared/middlewares/token/withValidToken'
+import { withAdminPermission } from '@modules/shared/middlewares/permissions/withAdminPermission'
 import { withAuthorizationHeader } from '@modules/shared/middlewares/token/withAuthorizationHeader'
 import { withValidCreateProduct } from '@modules/products/middlewares/validation/withValidCreateProduct'
 import { withProductIdParameter } from '@modules/products/middlewares/validation/withProductIdParameter'
@@ -18,6 +19,7 @@ router.post(
 	withAuthorizationHeader,
 	withValidToken,
 	withValidCreateProduct,
+	withAdminPermission,
 	CreateProductController.handle
 )
 
@@ -31,6 +33,7 @@ router.put(
 	withAuthorizationHeader,
 	withValidToken,
 	withValidModifyProduct,
+	withAdminPermission,
 	ModifyProductController.handle
 )
 
@@ -39,6 +42,7 @@ router.delete(
 	withProductIdParameter,
 	withAuthorizationHeader,
 	withValidToken,
+	withAdminPermission,
 	DeleteProductController.handle
 )
 

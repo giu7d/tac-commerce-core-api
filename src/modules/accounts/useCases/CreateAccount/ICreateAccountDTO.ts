@@ -4,4 +4,5 @@ export interface ICreateAccountDTO {
 	email: string
 	password: string
 	confirmPassword: string
+	isAdmin: boolean
 }
