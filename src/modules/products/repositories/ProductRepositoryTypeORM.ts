@@ -1,5 +1,7 @@
-import { getRepository, Repository } from 'typeorm'
+import { FindConditions, getRepository, Repository } from 'typeorm'
+
 import { Product } from '@modules/products/entities/Product'
+
 import { IProductRepository } from './IProductRepository'
 
 export class ProductRepositoryTypeORM implements IProductRepository {
@@ -24,7 +26,7 @@ export class ProductRepositoryTypeORM implements IProductRepository {
 		return await this.repository.findOne({ id })
 	}
 
-	async findAll() {
-		return await this.repository.find()
+	async findAll(options?: FindConditions<Product>) {
+		return await this.repository.find(options)
 	}
 }

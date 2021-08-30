@@ -1,3 +1,5 @@
+import { FindConditions } from 'typeorm'
+
 import { Product } from '@modules/products/entities/Product'
 
 export interface IProductRepository {
@@ -5,5 +7,5 @@ export interface IProductRepository {
 	modify(id: string, product: Partial<Omit<Product, 'id'>>): Promise<void>
 	delete(id: string): Promise<void>
 	findById(id: string): Promise<Product | undefined>
-	findAll(): Promise<Product[]>
+	findAll(options?: FindConditions<Product>): Promise<Product[]>
 }

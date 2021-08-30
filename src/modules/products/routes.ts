@@ -11,6 +11,7 @@ import { ListProductController } from '@modules/products/useCases/ListProduct/Li
 import { ShowProductController } from '@modules/products/useCases/ShowProduct/ShowProductController'
 import { ModifyProductController } from '@modules/products/useCases/ModifyProduct/ModifyProductController'
 import { DeleteProductController } from '@modules/products/useCases/DeleteProduct/DeleteProductController'
+import { ListProductCategoryController } from './useCases/ListProductCategories/ListProductCategoryController'
 
 const router = Router()
 
@@ -24,6 +25,8 @@ router.post(
 )
 
 router.get('/', ListProductController.handle)
+
+router.get('/categories', ListProductCategoryController.handle)
 
 router.get('/:productId', withProductIdParameter, ShowProductController.handle)
 

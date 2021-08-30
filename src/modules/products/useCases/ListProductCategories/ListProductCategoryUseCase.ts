@@ -3,15 +3,15 @@ import { inject, injectable } from 'tsyringe'
 import { IProductRepository } from '@modules/products/repositories/IProductRepository'
 
 @injectable()
-export class ListProductUseCase {
+export class ListProductCategoryUseCase {
 	constructor(
 		@inject('ProductRepository')
 		private productRepository: IProductRepository
 	) {}
 
-	async execute(data: { category?: string }) {
-		return await this.productRepository.findAll(
-			data.category ? { category: data.category } : undefined
-		)
+	async execute() {
+		const products = await this.productRepository.findAll()
+		const categories = products.map(item => item.category)
+		return Array.from(new Set(categories))
 	}
 }
