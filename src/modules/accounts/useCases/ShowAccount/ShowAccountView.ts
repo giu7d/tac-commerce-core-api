@@ -6,7 +6,8 @@ export class ShowAccountView {
 			id: data.id,
 			firstName: data.firstName,
 			lastName: data.lastName,
-			email: data.email
+			email: data.email,
+			isAdmin: data.isAdmin
 		}
 	}
 }
